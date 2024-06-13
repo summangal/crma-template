@@ -166,7 +166,7 @@ module.exports = function (
     ];
 
     // Keys from templatePackage that will be merged with appPackage
-    const templatePackageToMerge = ['dependencies', 'scripts'];
+    const templatePackageToMerge = [];
 
     // Keys from templatePackage that will be added to appPackage,
     // replacing any existing entries.
@@ -201,10 +201,10 @@ module.exports = function (
         );
     }
 
-    const appPackageDependencies = appPackage.dependencies || {};
-    delete appPackage.dependencies;
-    // Copy over some of the devDependencies
-    appPackage.dependencies = appPackageDependencies
+    // const appPackageDependencies = appPackage.dependencies || {};
+    // delete appPackage.dependencies;
+    // // Copy over some of the devDependencies
+    // appPackage.dependencies = appPackageDependencies
 
 
 

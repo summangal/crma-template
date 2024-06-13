@@ -1,6 +1,6 @@
-.idea/*
-/.DS-Store
+#root
 *.iml
 */.DS-Store
 **/.DS-Store
 .DS_Store
+.idea/*
