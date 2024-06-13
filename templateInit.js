@@ -92,6 +92,8 @@ module.exports = function (
         verbose,
         originalDirectory,
         templateName)
+    const repoName = appName.replace("@cisco-sbg/", "");
+    console.log(appName, repoName);
     const appPackage = require(path.join(appPath, 'package.json'));
     const useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
 
@@ -342,6 +344,9 @@ console.log(appPackage);
     const proc = spawn.sync(command, [remove, templateName], {
         stdio: 'inherit',
     });
+    const proc1 = spawn.sync(command, [remove, 'react-scripts'], {
+        stdio: 'inherit',
+    });
     if (proc.status !== 0) {
         console.error(`\`${command} ${args.join(' ')}\` failed`);
         return;
@@ -382,13 +387,10 @@ console.log(appPackage);
     console.log('    Starts the test runner.');
     console.log();
     console.log(
-        chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}eject`)
+        chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}format`)
     );
     console.log(
-        '    Removes this tool and copies build dependencies, configuration files'
-    );
-    console.log(
-        '    and scripts into the app directory. If you do this, you can’t go back!'
+        '    Format the codebase using Prettier and ESLint.'
     );
     console.log();
     console.log('We suggest that you begin by typing:');

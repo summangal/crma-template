@@ -121,8 +121,7 @@ const commonConfig = (env, mode) => {
         'process.env.ENTERPRISE': JSON.stringify(enterpriseId(env)),
       }),
       new ModuleFederationPlugin({
-        /** TODO: Change project name here */
-        name: 'microapp_template',
+        name: 'crmaTemplate',
         filename: 'remoteEntry.js',
         remotes: {},
         exposes: {
@@ -189,7 +188,6 @@ const devConfig = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, './dist'),
-    /** TODO: Change your PORT here */
     publicPath: 'http://localhost:4002/',
   },
   devtool: false,
@@ -209,7 +207,6 @@ const devConfig = {
   mode: 'development',
 
   devServer: {
-    /** TODO: Change your PORT here */
     port: 4002,
     allowedHosts: 'all',
     historyApiFallback: true,
