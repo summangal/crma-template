@@ -165,8 +165,20 @@ module.exports = function (
         'publishConfig',
     ];
 
+    const packageKeysOrder = [
+        'name',
+        'version',
+        'private',
+        'author',
+        'license',
+        'scripts',
+        'dependencies',
+        'devDependencies',
+        'lint-staged',
+    ]
+
     // Keys from templatePackage that will be merged with appPackage
-    const templatePackageToMerge = [];
+    const templatePackageToMerge = ['dependencies', 'scripts'];
 
     // Keys from templatePackage that will be added to appPackage,
     // replacing any existing entries.
@@ -182,7 +194,7 @@ module.exports = function (
         appPackage[key] = templatePackage[key];
     });
 
-    // Setup the script rules
+    // Set up the script rules
     const templateScripts = templatePackage.scripts || {};
     appPackage.scripts = Object.assign(
         {
@@ -201,18 +213,18 @@ module.exports = function (
         );
     }
 
-    // const appPackageDependencies = appPackage.dependencies || {};
-    // delete appPackage.dependencies;
-    // // Copy over some of the devDependencies
-    // appPackage.dependencies = appPackageDependencies
+    // Copy over some of the devDependencies
+    appPackage.dependencies = appPackage.dependencies || {};
 
-
-
+    let newAppPackage;
+    packageKeysOrder.forEach(key => {
+        newAppPackage[key] = appPackage[key];
+    });
 
 
     fs.writeFileSync(
         path.join(appPath, 'package.json'),
-        JSON.stringify(appPackage, null, 2) + os.EOL
+        JSON.stringify(newAppPackage, null, 2) + os.EOL
     );
 
     const readmeExists = fs.existsSync(path.join(appPath, 'README.md'));
@@ -307,12 +319,12 @@ module.exports = function (
 
     // Install react and react-dom for backward compatibility with old CRA cli
     // which doesn't install react and react-dom along with react-scripts
-    if (!isReactInstalled(appPackage)) {
+    if (!isReactInstalled(newAppPackage)) {
         args = args.concat(['react', 'react-dom']);
     }
 
     // Install template dependencies, and react and react-dom if missing.
-    if ((!isReactInstalled(appPackage) || templateName) && args.length > 1) {
+    if ((!isReactInstalled(newAppPackage) || templateName) && args.length > 1) {
         console.log();
         console.log(`Installing template dependencies using ${command}...`);
 
