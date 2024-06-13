@@ -177,8 +177,14 @@ module.exports = function (
         );
     });
 
+    // Add templatePackage keys/values to appPackage, replacing existing entries
+    templatePackageToReplace.forEach(key => {
+        appPackage[key] = templatePackage[key];
+    });
+    const appPackageDependencies = appPackage.dependencies || {};
+    delete appPackage.dependencies;
     // Copy over some of the devDependencies
-    appPackage.dependencies = appPackage.dependencies || {};
+    appPackage.dependencies = appPackageDependencies;
 
     // Setup the script rules
     const templateScripts = templatePackage.scripts || {};
@@ -200,13 +206,6 @@ module.exports = function (
     }
 
 
-
-
-
-    // Add templatePackage keys/values to appPackage, replacing existing entries
-    templatePackageToReplace.forEach(key => {
-        appPackage[key] = templatePackage[key];
-    });
 
     fs.writeFileSync(
         path.join(appPath, 'package.json'),

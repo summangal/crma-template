@@ -11,7 +11,7 @@ const { SourceMapDevToolPlugin } = require('webpack');
 const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const deps = require('../package.json').dependencies;
+const deps = require('./package.json').dependencies;
 
 const envName = env => {
   if (!env.ENVIRONMENT) return '';
