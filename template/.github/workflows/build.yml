@@ -1,0 +1,76 @@
+name: Build
+
+# Build runs on master merges and pull request changes, and also can be triggered manually
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  CI: true
+  FORCE_COLOR: true
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+  PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+  CDS_PAT_TOKEN: ${{ secrets.CDS_PAT_TOKEN }}
+  CDS_ARTIFACTORY_CLOUD_AUTH: ${{secrets.CDS_ARTIFACTORY_CLOUD_AUTH}}
+
+jobs:
+  build:
+    name: 'Build and Test'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: 'Install Node.js'
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 18.x
+          registry-url: 'https://npm.pkg.github.com'
+      - name: 'Install Dependencies'
+        run: |
+          cp .npmrc.example .npmrc
+          yarn install --frozen-lockfile
+          npm install -g @aws-amplify/cli
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GPR_READ_TOKEN }}
+      - name: 'Verify Dependencies Integrity'
+        run: |
+          yarn install
+          echo "Checking if yarn install modified lock file..."
+          git diff --exit-code
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GPR_READ_TOKEN }}
+      - name: 'Run Codegen, Build and Test'
+        run: |
+          yarn prettier --check .
+          yarn lint
+          yarn test:ci
+          yarn build
+        env:
+          NODE_OPTIONS: --unhandled-rejections=strict
+      - uses: sonarsource/sonarqube-scan-action@53c3e3207fe4b8d52e2f1ac9d6eb1d2506f626c0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+      - name: 'Coverage report'
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: 'coverage/cobertura-coverage.xml'
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          indicators: true
+          output: both
+          thresholds: '80 90'
+      - name: Adding coverage report to summary
+        run: |
+          cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,31 @@
+name: Export Build Logs To S3
+on:
+  workflow_run:
+    workflows: [Release] # Change this to workflow name on which you want to export logs
+    types: [completed]
+permissions:
+  actions: read
+jobs:
+  export-logs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: us-east-1
+      - name: Export logs
+        run: |
+          OWNER=${{ github.repository_owner }}
+          REPO=${{ github.event.repository.name }}
+          RUN_ID=${{ github.event.workflow_run.id }}
+          TOKEN=${{ secrets.GITHUB_TOKEN }}
+          
+          TRIMMED_WORKFLOW_NAME=$(echo ${{ github.event.workflow_run.name }} | tr -d ' ')
+          # Make a request to get the workflow run logs URL
+          zipName=$REPO/$TRIMMED_WORKFLOW_NAME/${{ github.event.workflow_run.created_at }}-runId-$RUN_ID.zip
+          
+          # Download the logs
+          curl -s -H "Authorization: Bearer $TOKEN" -L -o workflow_logs.zip "https://api.github.com/repos/$OWNER/$REPO/actions/runs/$RUN_ID/logs"
+          aws s3 cp workflow_logs.zip s3://${{ vars.BES_INF_LOG_BUCKET_NAME }}/${zipName}

@@ -1,0 +1,78 @@
+name: Corona Scan
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # runs every day at midnight
+
+env:
+  PRODUCT_ID: '12924'
+  CSDL_ID: '155562'
+  RELEASE_ID: '321134'
+  SECURITY_CONTACT: 'sxso-devops@cisco.com'
+  ENGINEERING_CONTACT: 'sxso-devops@cisco.com'
+  CDS_PAT_TOKEN: ${{ secrets.CDS_PAT_TOKEN }}
+  CORONA_EXTERNAL_HOST: 'https://apix.cisco.com/api/corona'
+  CORONA_API_GW_CLIENT_HOST: 'https://id.cisco.com'
+
+jobs:
+  corona-scan:
+    name: Corona Scan
+    runs-on: ubuntu-20.04
+    steps:
+      - name: 🛒 Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Needed for accurate changelog generation
+          ref: ${{ github.sha }}
+
+      - name: 'Install Node.js'
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 16.x
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Copy Dependency Files to Folder
+        run: |
+          mkdir /tmp/imagedir
+          yarn list --json | \
+            jq -r '.data.trees | to_entries[] | select(.value.name) | .value.name' | \
+            sed -r 's/(.*)@/\1==/' > /tmp/imagedir/temp-image.txt
+
+          # Avoid having to report every subfolder of CDS as a separate dependency in Corona
+          # First, remove all references from the initial list
+          grep -v @ciscodesignsystems /tmp/imagedir/temp-image.txt > /tmp/imagedir/image.txt
+
+          # Second, get all the versions of just CDS being used (stripping off subfolders)
+          # and append to the filtered list
+          yarn list --pattern @ciscodesignsystems --json | \
+            jq -r '.data.trees | to_entries[] | select(.value.name) | .value.name' | \
+            sed -r 's/(.*)@/\1==/'| \
+            sed -e 's/\/.*==/==/' | \
+            sort -u >> /tmp/imagedir/image.txt
+
+          rm /tmp/imagedir/temp-image.txt
+          cat /tmp/imagedir/image.txt
+
+      - name: 📥️ Download and install corona dependencies
+        run: |
+          cd .github/scripts/corona-scan
+          pip install -r requirements.txt
+
+      - name: Upload dependencies for corona scan
+        env:
+          CORONAUSER: ${{ secrets.CORONAUSER }}
+          CORONAPASSWORD: ${{ secrets.CORONAPASSWORD }}
+          CORONA_HOST: ${{ env.CORONA_EXTERNAL_HOST }}
+          CORONA_API_GW_CLIENT_HOST: ${{ env.CORONA_API_GW_CLIENT_HOST }}
+          CORONA_API_GW_CLIENT_ID: ${{ secrets.CORONA_API_GW_CLIENT_ID }}
+          CORONA_API_GW_CLIENT_SECRET: ${{ secrets.CORONA_API_GW_CLIENT_SECRET }}
+        run: |
+          cd .github/scripts/corona-scan
+          python3 -m corona_byos \
+          -p ${{ env.PRODUCT_ID }} \
+          -e ${{ env.ENGINEERING_CONTACT }} \
+          -c ${{ env.CSDL_ID }} \
+          -r ${{ env.RELEASE_ID }} \
+          -f /tmp/imagedir \
+          -l True

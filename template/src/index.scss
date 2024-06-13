@@ -1,0 +1,100 @@
+@import '@ciscodesignsystems/cds-magnetic-theme-web/css/dist/token-theme-variables.css';
+@import '@ciscodesignsystems/cds-react-skeleton/index.css';
+@import '@ciscodesignsystems/cds-react-button/index.css';
+@import '@ciscodesignsystems/cds-react-flex/index.css';
+@import '@ciscodesignsystems/cds-react-empty-state/index.css';
+@import '@ciscodesignsystems/cds-react-card/index.css';
+@import '@ciscodesignsystems/cds-react-toaster/index.css';
+@import '@ciscodesignsystems/cds-react-notification/index.css';
+@import '@ciscodesignsystems/cds-react-container/index.css';
+@import '@ciscodesignsystems/cds-react-heading/index.css';
+@import '@ciscodesignsystems/cds-react-spinner/index.css';
+
+@font-face {
+  font-family: 'Sharp Sans';
+  src: url('./fonts/sharp-sans/SharpSans-Bold.woff') format('woff');
+}
+
+.custom-font-family {
+  font-family:
+    Inter,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif !important;
+}
+body {
+  margin: 0;
+  background-color: #f0f1f2;
+}
+
+.app-container {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-cds-theme='magnetic-light'] .app-container {
+  background: var(--brand-text-strong-default) !important;
+}
+
+.p25 {
+  padding: 25px;
+}
+
+.ml0 {
+  margin-left: 0px !important;
+}
+
+.security-logo-dimensions {
+  width: 26.997px;
+  height: 26.997px;
+  padding-right: 0.997px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.card-width {
+  flex-grow: 1;
+  flex-basis: 30%;
+}
+
+.cds-checkbox--disabled {
+  color: #23282e !important;
+}
+
+.content {
+  flex-grow: 1;
+}
+
+.pl0 {
+  padding-left: 0 !important;
+}
+
+.pr0 {
+  padding-right: 0;
+}
+
+.clipboard-modal {
+  .cds-copy-to-clipboard__section {
+    width: 94%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .cds-copy-to-clipboard__value {
+    word-break: break-all;
+  }
+}
+
+.toasts-message {
+  margin-right: 4px;
+}
+.m-top-200 {
+  margin-top: 150px !important;
+}
+
+.p0 {
+  padding: 0 !important;
+}

@@ -1,0 +1,9 @@
+@ciscodesignsystems:registry=https://artifactory.devhub-cloud.cisco.com/artifactory/api/npm/magnetic-common-npm/
+//artifactory.devhub-cloud.cisco.com/artifactory/api/npm/magnetic-common-npm/:_auth=${CDS_ARTIFACTORY_CLOUD_AUTH}
+//artifactory.devhub-cloud.cisco.com/artifactory/api/npm/magnetic-common-npm/:always-auth=true
+
+@cisco-sbg:registry=https://npm.pkg.github.com/
+//npm.pkg.github.com/:_authToken=${PAT_TOKEN}
+always-auth=true
+
+registry=https://registry.npmjs.org/

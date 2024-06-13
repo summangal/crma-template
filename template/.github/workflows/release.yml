@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  repository_dispatch:
+    types:
+      - trigger-release
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+  CDS_ARTIFACTORY_CLOUD_AUTH: ${{secrets.CDS_ARTIFACTORY_CLOUD_AUTH}}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: 'Create Version Number'
+        run: |
+          echo "VERSION=`date '+%Y%m%d'`-`echo ${{github.sha}} | head -c 7`" >> $GITHUB_ENV
+      - name: 'Release - Prepare Release Notes'
+        run: |
+          notes=$(echo "${{ github.event.client_payload.notes }}" | base64 -d)
+          notes="${notes//'%'/'%25'}"
+          notes="${notes//$'\r'/'%0D'}"
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+          echo "$notes" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - name: Build
+        run: |
+          cp .npmrc.example .npmrc
+          yarn install
+          yarn build --env ENVIRONMENT=staging
+          zip -r staging.zip dist
+          yarn build --env ENVIRONMENT=production
+          zip -r prod.zip dist
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            staging.zip
+            prod.zip
+          tag_name: v${{ env.VERSION }}
+          name: Release v${{ env.VERSION }}
+          body: |
+            ${{ env.RELEASE_NOTES }}
+          draft: false
+          prerelease: false

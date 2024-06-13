@@ -1,0 +1,4 @@
+"Package","Version Installed","Type","Path","Access Path","Language","Found by"
+{{- range .Artifacts -}}
+"{{ .Name }}","{{ .Version }}","{{ .Type }}","{{ (index .Locations 0).Path }}","{{ (index .Locations 0).AccessPath }}","{{ .Language }}","{{ .FoundBy }}"
+{{- end }}

@@ -1,0 +1,6 @@
+{
+  "backendUrlConfig": {
+    "prometheusUrl": "sso-apps.security.cisco.com",
+    "phanesUrl": "provisioning.security.cisco.com"
+  }
+}

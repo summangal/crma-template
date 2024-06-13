@@ -1,0 +1,66 @@
+{
+  "apiErrors": {
+    "title": {
+      "default": {
+        "400": "Bad Request",
+        "401": "Unauthorized",
+        "403": "Forbidden",
+        "404": "Not Found",
+        "500": "An internal server error occurred.",
+        "502": "An internal server error occurred.",
+        "503": "An internal server error occurred.",
+        "504": "An internal server error occurred.",
+        "genericError": "Oops! Something went wrong."
+      },
+      "API_CLIENT": {
+        "400": "There was an error processing your request.",
+        "404": "There was an error processing your request.",
+        "500": "An internal server error occurred.",
+        "502": "An internal server error occurred.",
+        "503": "An internal server error occurred.",
+        "504": "An internal server error occurred.",
+        "genericError": "Oops! Something went wrong."
+      },
+      "SECURITY_SETTINGS": {
+        "400": "There was an error processing your request.",
+        "404": "There was an error processing your request.",
+        "500": "An internal server error occurred.",
+        "502": "An internal server error occurred.",
+        "503": "An internal server error occurred.",
+        "504": "An internal server error occurred.",
+        "genericError": "Oops! Something went wrong."
+      }
+    },
+    "description": {
+      "default": {
+        "400": "The server is currently unable to process the request.",
+        "401": "The authentication credentials have expired or are invalid.",
+        "403": "You don't have permission to access this.",
+        "404": "The resource could not be found.",
+        "500": "Please try again later.",
+        "502": "Please try again later.",
+        "503": "Please try again later.",
+        "504": "Please try again later.",
+        "genericError": "There was an error communicating with the API. Please try again later."
+      },
+      "API_CLIENT": {
+        "400": "There was an error processing your request.",
+        "404": "There was an error processing your request.",
+        "500": "An internal server error occurred.",
+        "502": "An internal server error occurred.",
+        "503": "An internal server error occurred.",
+        "504": "An internal server error occurred.",
+        "genericError": "Oops! Something went wrong."
+      },
+      "SECURITY_SETTINGS": {
+        "400": "There was an error processing your request.",
+        "404": "There was an error processing your request.",
+        "500": "An internal server error occurred.",
+        "502": "An internal server error occurred.",
+        "503": "An internal server error occurred.",
+        "504": "An internal server error occurred.",
+        "genericError": "Oops! Something went wrong."
+      }
+    }
+  }
+}

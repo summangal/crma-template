@@ -1,0 +1,6 @@
+{
+  "backendUrlConfig": {
+    "prometheusUrl": "sso-apps-staging.test.security.cisco.com",
+    "phanesUrl": "provisioning-staging.test.security.cisco.com"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "emptyState": {
+    "title": "There is some error",
+    "message": "There is some error",
+    "refreshMessage": "Click <bold1>Refresh</bold1> and try again",
+    "genericError": "Content could not load",
+    "refresh": "Refresh",
+    "link1": "Who has permission to create API clients?"
+  }
+}

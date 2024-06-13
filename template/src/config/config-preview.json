@@ -1,0 +1,10 @@
+{
+  "okta": {
+    "issuer": "https://sso-preview.test.security.cisco.com/oauth2/ausrbsiz6hbu5Dt6l0h7",
+    "clientId": "0oa2279erh1PnAuDU0h8"
+  },
+  "backendUrlConfig": {
+    "prometheusUrl": "sso-apps-preview.myverysecuresignon.name",
+    "phanesUrl": "provisioning-dev.test.security.cisco.com"
+  }
+}

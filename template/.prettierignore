@@ -1,0 +1,13 @@
+# Dependencies
+**/node_modules/**
+**/@magnetic/**
+
+# Artifacts
+**/build/**
+**/dist/**
+**/coverage/**
+
+# Automation
+e2e-int-tests
+.github/**
+README.md

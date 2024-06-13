@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron:  '0 */4 * * *'
+
+# concurrency lets us to run latest committed code.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+  AWS_DEFAULT_REGION: 'us-east-1'
+  PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+  CDS_ARTIFACTORY_CLOUD_AUTH: ${{secrets.CDS_ARTIFACTORY_CLOUD_AUTH}}
+  FORCE_COLOR: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: us-east-1
+      - name: Unit Test
+        run: |
+          cp .npmrc.example .npmrc
+          yarn install
+          yarn test:ci
+      - name: Build for CI
+        run: |
+          yarn build --env ENVIRONMENT=ci
+      - name: Copy build to CI microapps S3 bucket
+        run: |
+          aws s3 rm s3://ci-scso-cdn.sbgscso.name/${{ github.event.repository.name }} --recursive
+          aws s3 cp --recursive ./dist s3://ci-scso-cdn.sbgscso.name/${{ github.event.repository.name }}
+      - name: Build for Preview
+        run: |
+          yarn build --env ENVIRONMENT=preview
+      - name: Copy build to Preview microapps S3 bucket
+        run: |
+          aws s3 rm s3://preview-scso-cdn.sbgscso.name/${{ github.event.repository.name }} --recursive
+          aws s3 cp --recursive ./dist s3://preview-scso-cdn.sbgscso.name/${{ github.event.repository.name }}
+      - name: 'Coverage report'
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: './reports/coverage/cobertura-coverage.xml'
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          indicators: true
+          output: both
+          thresholds: '80 90'
+      - name: Adding coverage report to summary
+        run: |
+          cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+      - name: Trigger workflow to export log
+        if: env.release_requested
+        run: |
+          OWNER=${{ github.repository_owner }}
+          REPO=$(basename ${{ github.repository }})
+          curl -L \
+              -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{secrets.GITHUB_TOKEN}}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              https://api.github.com/repos/$OWNER/$REPO/actions/workflows/${{ vars.EXPORT_BUILD_LOG_WORKFLOW_ID}}/dispatches \
+              -d '{"ref":"${{ github.head_ref || github.ref_name }}","inputs":{"isReleased": ${{ env.release_requested }},"runId":"${{ github.run_id }}", "workflowName":"${{ github.workflow }}"}}'
