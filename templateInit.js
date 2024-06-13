@@ -145,12 +145,9 @@ module.exports = function (
     // Keys to ignore in templatePackage
     const templatePackageBlacklist = [
         'name',
-        'version',
         'description',
         'keywords',
         'bugs',
-        'license',
-        'author',
         'contributors',
         'files',
         'browser',
@@ -165,7 +162,6 @@ module.exports = function (
         'os',
         'cpu',
         'preferGlobal',
-        'private',
         'publishConfig',
     ];
 
@@ -188,10 +184,6 @@ module.exports = function (
     const templateScripts = templatePackage.scripts || {};
     appPackage.scripts = Object.assign(
         {
-            start: 'react-scripts start',
-            build: 'react-scripts build',
-            test: 'react-scripts test',
-            eject: 'react-scripts eject',
         },
         templateScripts
     );
