@@ -182,7 +182,7 @@ module.exports = function (
         appPackage[key] = templatePackage[key];
     });
     const appPackageDependencies = appPackage.dependencies || {};
-    delete appPackage.dependencies;
+    
     // Copy over some of the devDependencies
     appPackage.dependencies = appPackageDependencies;
 
