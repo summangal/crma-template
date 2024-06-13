@@ -217,7 +217,7 @@ module.exports = function (
 
     // Copy over some of the devDependencies
     appPackage.dependencies = appPackage.dependencies || {};
-console.log(appPackage);
+
     let newAppPackage = {};
     packageKeys.forEach(key => {
         newAppPackage[key] = appPackage[key];
