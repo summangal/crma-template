@@ -1,3 +1,5 @@
 .idea/*
 /.DS-Store
 *.iml
+*/.DS-Store
+**/.DS-Store
