@@ -166,12 +166,14 @@ module.exports = function (
     ];
 
     const packageKeys = [
+        'name',
+        'version',
         'private',
         'author',
         'license',
         'scripts',
-        'dependencies',
         'devDependencies',
+        'dependencies',
         'lint-staged',
     ]
 
@@ -214,7 +216,7 @@ module.exports = function (
     // Copy over some of the devDependencies
     appPackage.dependencies = appPackage.dependencies || {};
 console.log(appPackage);
-    let newAppPackage;
+    let newAppPackage = {};
     packageKeys.forEach(key => {
         newAppPackage[key] = appPackage[key];
     });

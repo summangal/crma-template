@@ -1,5 +1,6 @@
 {
   "package": {
+    "version": "1.0.0",
     "private": true,
     "author": "Cisco Systems, Inc",
     "license": "SEE LICENSE IN LICENSE.md",
@@ -11,7 +12,7 @@
       "dev": "npm run start:live",
       "lint": "eslint --no-error-on-unmatched-pattern src/**/*.{js,jsx,ts,tsx} --quiet",
       "lint:fix": "eslint --no-error-on-unmatched-pattern src/**/*.{js,jsx,ts,tsx} --quiet --fix",
-      "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,scss,sass,md,json,html}' --config template/.prettierrc.json",
+      "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,scss,sass,md,json,html}' --config ./.prettierrc.json",
       "test": "jest test --watchAll",
       "test:single": "jest add/test.js",
       "test:ci": "jest test --coverage --runInBand",
