@@ -181,10 +181,6 @@ module.exports = function (
     templatePackageToReplace.forEach(key => {
         appPackage[key] = templatePackage[key];
     });
-    const appPackageDependencies = appPackage.dependencies || {};
-    delete appPackage.dependencies;
-    // Copy over some of the devDependencies
-    appPackage.dependencies = appPackageDependencies
 
     // Setup the script rules
     const templateScripts = templatePackage.scripts || {};
@@ -204,6 +200,13 @@ module.exports = function (
             {}
         );
     }
+
+    const appPackageDependencies = appPackage.dependencies || {};
+    delete appPackage.dependencies;
+    // Copy over some of the devDependencies
+    appPackage.dependencies = appPackageDependencies
+
+
 
 
 
