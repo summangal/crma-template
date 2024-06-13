@@ -1,6 +1,5 @@
 {
   "package": {
-    "version": "1.0.0",
     "private": true,
     "author": "Cisco Systems, Inc",
     "license": "SEE LICENSE IN LICENSE.md",

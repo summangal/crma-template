@@ -165,9 +165,7 @@ module.exports = function (
         'publishConfig',
     ];
 
-    const packageKeysOrder = [
-        'name',
-        'version',
+    const packageKeys = [
         'private',
         'author',
         'license',
@@ -217,7 +215,7 @@ module.exports = function (
     appPackage.dependencies = appPackage.dependencies || {};
 
     let newAppPackage;
-    packageKeysOrder.forEach(key => {
+    packageKeys.forEach(key => {
         newAppPackage[key] = appPackage[key];
     });
 
