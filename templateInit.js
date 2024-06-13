@@ -21,7 +21,6 @@ const execSync = require('child_process').execSync;
 const spawn = require('react-dev-utils/crossSpawn');
 const { defaultBrowsers } = require('react-dev-utils/browsersHelper');
 const os = require('os');
-const verifyTypeScriptSetup = require('./utils/verifyTypeScriptSetup');
 
 function isInGitRepository() {
     try {
@@ -328,11 +327,6 @@ module.exports = function (
             console.error(`\`${command} ${args.join(' ')}\` failed`);
             return;
         }
-    }
-
-    if (args.find(arg => arg.includes('typescript'))) {
-        console.log();
-        verifyTypeScriptSetup();
     }
 
     // Remove template
