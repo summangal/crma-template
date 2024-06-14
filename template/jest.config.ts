@@ -10,8 +10,7 @@ const config: Config = {
   transform: {
     '^.+\\.(ts|tsx)?$': 'ts-jest',
     '^.+\\.(js|jsx)?$': 'babel-jest',
-    'node_modules/(react-dnd|dnd-core|@react-dnd|react-dnd-html5-backend)/.+\\.(js|ts|jsx|tsx)?$':
-        'ts-jest',
+    'node_modules/(react-dnd|dnd-core|@react-dnd|react-dnd-html5-backend)/.+\\.(js|ts|jsx|tsx)?$': 'ts-jest',
   },
   transformIgnorePatterns: [
     'node_modules/(?!(react-dnd|dnd-core|@react-dnd|react-dnd-html5-backend|react-dnd-touch-backend)/)',
