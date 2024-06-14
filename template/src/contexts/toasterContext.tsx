@@ -1,6 +1,5 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 /* eslint-disable  react/jsx-no-constructed-context-values */
-
 import React, {
   createContext,
   ReactElement,
@@ -57,16 +56,10 @@ export const ToasterContextProvider = (
     timeout,
     errorDescription,
   }: IToastData): void => {
-    const { crypto } = window;
-    const unitArray = new Uint32Array(1);
     let title: any = toastTitle ?? '';
     let description: any = toastDescription ?? '';
     if (error) {
       const errorStatus = error?.response?.status;
-      // TODO use this code for trace id future
-      //   const traceId =
-      //     error?.response?.headers[X_TRACE_ID_RESPONSE_HEADER] ??
-      //     error?.response?.headers[X_PROMETHEUS_TRACE_ID_RESPONSE_HEADER];
       title = t([
         `apiErrors:apiErrors:title:${context}:${errorStatus}`,
         `apiErrors:apiErrors:title:${context}:genericError`,
@@ -80,7 +73,7 @@ export const ToasterContextProvider = (
     }
 
     const toast = {
-      id: `${Date.now()}${crypto.getRandomValues(unitArray)}`,
+      id: `${Date.now()}${crypto.randomUUID()}`,
       title,
       description,
       status,
@@ -107,7 +100,7 @@ export const ToasterContextProvider = (
   );
 };
 
-export const useToasterNotficiation = (): IToasterContext => {
+export const useToasterNotification = (): IToasterContext => {
   const { toastList, addToastToList } = useContext(ToasterContext);
   return {
     toastList,

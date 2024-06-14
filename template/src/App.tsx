@@ -23,7 +23,7 @@ const App: React.FC = () => {
   return process.env.NODE_ENV === 'development' ? (
     <OktaConfiguration config={config.okta} />
   ) : (
-    <></>
+    <h1>sss</h1>
   );
 };
 

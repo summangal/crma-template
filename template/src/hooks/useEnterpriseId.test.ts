@@ -9,6 +9,7 @@ describe('useEnterpriseId', () => {
 
   afterEach(() => {
     sessionStorage.clear();
+    process.env.NODE_ENV = 'development';
     delete process.env.ENTERPRISE;
   });
 
@@ -39,10 +40,58 @@ describe('useEnterpriseId', () => {
     expect(result.current).toBe(newEnterpriseId);
   });
 
+  it('should not update enterpriseId when custom event is returing null', () => {
+    const { result } = renderHook(() => useEnterpriseId());
+    expect(result.current).toBe('');
+
+    act(() => {
+      window.dispatchEvent(
+        new CustomEvent('selectedEnterpriseChanged', {
+          composed: false,
+        }),
+      );
+    });
+    expect(result.current).toBe('');
+  });
+
+  it('should not update enterpriseId when custom event id is integer', () => {
+    const { result } = renderHook(() => useEnterpriseId());
+    expect(result.current).toBe('');
+
+    act(() => {
+      window.dispatchEvent(
+        new CustomEvent('selectedEnterpriseChanged', {
+          detail: { id: 5 },
+        }),
+      );
+    });
+    expect(result.current).toBe('');
+  });
+
+  it('should not update enterpriseId when custom event id not available', () => {
+    const { result } = renderHook(() => useEnterpriseId());
+    expect(result.current).toBe('');
+
+    act(() => {
+      window.dispatchEvent(
+        new CustomEvent('selectedEnterpriseChanged', {
+          detail: { test: 5 },
+        }),
+      );
+    });
+    expect(result.current).toBe('');
+  });
+
   it('should use enterpriseId from environment variable in development mode', () => {
     process.env.NODE_ENV = 'development';
     process.env.ENTERPRISE = 'devEnterprise';
     const { result } = renderHook(() => useEnterpriseId());
     expect(result.current).toBe('devEnterprise');
+  });
+
+  it('should return empty string in development mode if no enterprise id', () => {
+    process.env.NODE_ENV = 'test';
+    const { result } = renderHook(() => useEnterpriseId());
+    expect(result.current).toBe('');
   });
 });

@@ -1,6 +1,6 @@
 import React, { ReactElement, createContext, useContext, useMemo } from 'react';
 import { IApiConfig, IConfigData } from '@interfaces/IConfiguration';
-import { API_JSON_CONFIG } from '../utils/Constants';
+import { API_JSON_CONFIG } from '../utils/constants';
 
 const defaultValue: IApiConfig = {
   config: API_JSON_CONFIG,

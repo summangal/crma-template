@@ -18,7 +18,7 @@ const Sample: React.FC = () => {
         grow
         gap="md"
         direction="vertical">
-        <CDSHeading size="h1">{t('sample:title')}</CDSHeading>
+        <CDSHeading size="h1">{t('sample:sample.title')}</CDSHeading>
       </CDSFlex>
     </Suspense>
   );

@@ -8,7 +8,7 @@ on:
 env:
   PRODUCT_ID: '12924'
   CSDL_ID: '155562'
-  RELEASE_ID: '321134'
+  RELEASE_ID: '<corona_release_id>',
   SECURITY_CONTACT: 'sxso-devops@cisco.com'
   ENGINEERING_CONTACT: 'sxso-devops@cisco.com'
   CDS_PAT_TOKEN: ${{ secrets.CDS_PAT_TOKEN }}

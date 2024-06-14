@@ -1,10 +1,10 @@
 import React from 'react';
 import { CDSFlex } from '@ciscodesignsystems/cds-react-flex';
 import { CDSToaster } from '@ciscodesignsystems/cds-react-toaster';
-import { useToasterNotficiation } from '../../../contexts/toasterContext';
+import { useToasterNotification } from '../../../contexts/toasterContext';
 
 const AppNotification: React.FC = () => {
-  const { toastList } = useToasterNotficiation();
+  const { toastList } = useToasterNotification();
 
   return (
     <CDSFlex>

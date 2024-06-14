@@ -121,7 +121,7 @@ const commonConfig = (env, mode) => {
         'process.env.ENTERPRISE': JSON.stringify(enterpriseId(env)),
       }),
       new ModuleFederationPlugin({
-        name: 'crmaTemplate',
+        name: '<app_name_camel_case>',
         filename: 'remoteEntry.js',
         remotes: {},
         exposes: {

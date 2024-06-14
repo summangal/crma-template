@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { IConfigData, IConfigResponse } from '../interfaces/IConfiguration';
-import { API_JSON_CONFIG } from '../utils/Constants';
-import { loadConfig } from '../utils/Utils';
+import { IConfigData, IConfigResponse } from '@interfaces/IConfiguration';
+import { API_JSON_CONFIG } from '../utils/constants';
+import loadConfig from '../utils/loadConfig';
 
 function useConfigJsonData(): IConfigResponse {
   const [loading, setLoading] = useState<boolean>(true);

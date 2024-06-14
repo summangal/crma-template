@@ -6,7 +6,7 @@ const useEnterpriseId = () => {
   useEffect(() => {
     // Check if enterpriseId exists in sessionStorage
     const storedEnterpriseId = sessionStorage.getItem('selectedEnterprise');
-    if (storedEnterpriseId && typeof storedEnterpriseId === 'string') {
+    if (storedEnterpriseId) {
       setSelectedEnterpriseId(storedEnterpriseId);
     }
 

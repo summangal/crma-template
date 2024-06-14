@@ -6,7 +6,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../locales/i18n';
 import {
   ToasterContextProvider,
-  useToasterNotficiation,
+  useToasterNotification,
 } from './toasterContext';
 
 const error = {
@@ -18,7 +18,7 @@ const error = {
   },
 };
 const Toaster = (): ReactElement => {
-  const { toastList } = useToasterNotficiation();
+  const { toastList } = useToasterNotification();
   return (
     <span>
       <CDSToaster
@@ -32,7 +32,7 @@ const Toaster = (): ReactElement => {
 };
 
 const RandomComponentOne = (): ReactElement => {
-  const { addToastToList } = useToasterNotficiation();
+  const { addToastToList } = useToasterNotification();
   useEffect(() => {
     addToastToList({
       toastDescription: 'Orbital API Client successfully deleted..',
@@ -48,7 +48,7 @@ const RandomComponentOne = (): ReactElement => {
 };
 
 const RandomComponentTwo = (): ReactElement => {
-  const { addToastToList } = useToasterNotficiation();
+  const { addToastToList } = useToasterNotification();
   useEffect(() => {
     addToastToList({
       error,

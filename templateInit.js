@@ -19,12 +19,12 @@ const path = require('path');
 const chalk = require('react-dev-utils/chalk');
 const execSync = require('child_process').execSync;
 const spawn = require('react-dev-utils/crossSpawn');
-const { defaultBrowsers } = require('react-dev-utils/browsersHelper');
+const {defaultBrowsers} = require('react-dev-utils/browsersHelper');
 const os = require('os');
 
 function isInGitRepository() {
     try {
-        execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
+        execSync('git rev-parse --is-inside-work-tree', {stdio: 'ignore'});
         return true;
     } catch (e) {
         return false;
@@ -33,7 +33,7 @@ function isInGitRepository() {
 
 function isInMercurialRepository() {
     try {
-        execSync('hg --cwd . root', { stdio: 'ignore' });
+        execSync('hg --cwd . root', {stdio: 'ignore'});
         return true;
     } catch (e) {
         return false;
@@ -42,12 +42,12 @@ function isInMercurialRepository() {
 
 function tryGitInit() {
     try {
-        execSync('git --version', { stdio: 'ignore' });
+        execSync('git --version', {stdio: 'ignore'});
         if (isInGitRepository() || isInMercurialRepository()) {
             return false;
         }
 
-        execSync('git init', { stdio: 'ignore' });
+        execSync('git init', {stdio: 'ignore'});
         return true;
     } catch (e) {
         console.warn('Git repo not initialized', e);
@@ -57,7 +57,7 @@ function tryGitInit() {
 
 function tryGitCommit(appPath) {
     try {
-        execSync('git add -A', { stdio: 'ignore' });
+        execSync('git add -A', {stdio: 'ignore'});
         execSync('git commit -m "Initialize project using Create React App"', {
             stdio: 'ignore',
         });
@@ -126,7 +126,7 @@ module.exports = function (
     }
 
     const templatePath = path.dirname(
-        require.resolve(`${templateName}/package.json`, { paths: [appPath] })
+        require.resolve(`${templateName}/package.json`, {paths: [appPath]})
     );
 
     const templateJsonPath = path.join(templatePath, 'template.json');
@@ -205,8 +205,7 @@ module.exports = function (
     // Set up the script rules
     const templateScripts = templatePackage.scripts || {};
     appPackage.scripts = Object.assign(
-        {
-        },
+        {},
         templateScripts
     );
 
@@ -284,17 +283,45 @@ module.exports = function (
         );
     }
 
-    fs.readFile(`${appPath}/sonar-project.properties`, 'utf8', function (err,data) {
+    const camelize = s => s.replace(/-./g, x => x[1].toUpperCase())
+    fs.readFile(`${appPath}/webpack.config.js`, 'utf8', function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+        let result = data.replace('<app_name_camel_case>', camelize(appName));
+        fs.writeFile(`${appPath}/webpack.config.js`, result, 'utf8', function (err) {
+            if (err) return console.log(err);
+        });
+    });
+
+    fs.readFile(`${appPath}/sonar-project.properties`, 'utf8', function (err, data) {
         if (err) {
             return console.log(err);
         }
         let result = data.replace('<app-name>', appName);
+        if (!!sonarKey) {
+            if (sonarKey.includes("cisco-sbg") || sonarKey.includes(appName))
+                result = result.replace('<sonar-key>', `cisco-sbg_${appName}_${sonarKey}`);
+            else
+                result = result.replace('<sonar-key>', sonarKey);
+        }
 
         fs.writeFile(`${appPath}/sonar-project.properties`, result, 'utf8', function (err) {
             if (err) return console.log(err);
         });
     });
 
+    if (!!coronaReleaseId) {
+        fs.readFile(`${appPath}/.github/workflows/corona-scan.yml`, 'utf8', function (err, data) {
+            if (err) {
+                return console.log(err);
+            }
+            let result = data.replace('<corona_release_id>', coronaReleaseId);
+            fs.writeFile(`${appPath}/.github/workflows/corona-scan.yml`, result, 'utf8', function (err) {
+                if (err) return console.log(err);
+            });
+        });
+    }
 
 
     // Initialize git repo
@@ -349,7 +376,7 @@ module.exports = function (
         console.log();
         console.log(`Installing template dependencies using ${command}...`);
 
-        const proc = spawn.sync(command, args, { stdio: 'inherit' });
+        const proc = spawn.sync(command, args, {stdio: 'inherit'});
         if (proc.status !== 0) {
             console.error(`\`${command} ${args.join(' ')}\` failed`);
             return;

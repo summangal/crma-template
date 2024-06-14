@@ -5,6 +5,7 @@ import { CDSThemeProvider } from '@ciscodesignsystems/cds-react-theme-provider';
 import { ToasterContextProvider } from '../../../contexts/toasterContext';
 import AppNotification from '../commonNotificiation/AppNotification';
 import ThemeContext from '../../../contexts/themeContext';
+import ErrorComp from '../ErrorBoundary/ErrorComp';
 
 export interface IAppLayout {
   children: ReactNode;
@@ -15,7 +16,7 @@ const AppLayout: React.FC<IAppLayout> = props => {
 
   const themeContext = useContext(ThemeContext);
   if (!themeContext) {
-    throw new Error('ThemeContext is undefined!');
+    return <ErrorComp />;
   }
   const { selectedTheme } = themeContext;
 

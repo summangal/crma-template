@@ -63,6 +63,8 @@ describe('GenericErrorScreen Component', () => {
       </I18nextProvider>,
     );
     const refreshButton = screen.queryByTestId('refresh-id');
+    fireEvent.click(screen.getByTestId('refresh-id'));
+    expect(mockOnRefresh).toHaveBeenCalled();
     expect(refreshButton).toBeInTheDocument();
   });
 });

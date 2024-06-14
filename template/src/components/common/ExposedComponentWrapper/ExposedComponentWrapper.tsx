@@ -1,15 +1,15 @@
 import React, { ReactElement, useMemo } from 'react';
+import { IThemeContextType } from '@interfaces/IThemeContextType';
 import useConfigJsonData from '../../../hooks/useConfiguration';
 import useEnterpriseId from '../../../hooks/useEnterpriseId';
 import useTheme from '../../../hooks/useTheme';
-import { IThemeContextType } from '../../../interfaces/IThemeContextType';
 import ThemeContext from '../../../contexts/themeContext';
-import { ApiConfigProvider } from '../../../contexts/urlConfigurationContext';
 import ErrorComp from '../ErrorBoundary/ErrorComp';
 import Spinner from '../Spinner/Spinner';
 import AppLayout from '../appLayout/AppLayout';
 import '../../../locales/i18n';
 import '../../../index.scss';
+import { ApiConfigProvider } from '../../../contexts/urlConfigurationContext';
 
 interface IExposedComponentWrapperProps {
   children: React.ReactNode;

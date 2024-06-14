@@ -32,10 +32,12 @@ DATA+="}"
 
 # Trigger event
 # https://goobar.io/2019/12/07/manually-trigger-a-github-actions-workflow/
+REPO_URL=$(git config --get remote.origin.url)
+REPO_NAME=$(basename "${REPO_URL}" .git)
 echo "Going to trigger '${EVENT}' event..."
 curl --request POST \
      -H "Accept: application/vnd.github.everest-preview+json" \
      -H "Authorization: token ${TOKEN}" \
      -w "HTTP Status Code: %{response_code}\n" \
      --data "${DATA}" \
-     https://api.github.com/repos/cisco-sbg/cspe-microapp-template/dispatches
+     https://api.github.com/repos/cisco-sbg/"${REPO_NAME}"/dispatches
