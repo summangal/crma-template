@@ -284,6 +284,19 @@ module.exports = function (
         );
     }
 
+    fs.readFile(`${appPath}/sonar-project.properties`, 'utf8', function (err,data) {
+        if (err) {
+            return console.log(err);
+        }
+        let result = data.replace('<app-name>', appName);
+
+        fs.writeFile(`${appPath}/sonar-project.properties`, result, 'utf8', function (err) {
+            if (err) return console.log(err);
+        });
+    });
+
+
+
     // Initialize git repo
     let initializedGit = false;
 
