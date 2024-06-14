@@ -301,9 +301,9 @@ module.exports = function (
         let result = data.replace('<app-name>', appName);
         if (!!sonarKey) {
             if (sonarKey.includes("cisco-sbg") || sonarKey.includes(appName))
-                result = result.replace('<sonar-key>', `cisco-sbg_${appName}_${sonarKey}`);
-            else
                 result = result.replace('<sonar-key>', sonarKey);
+            else
+                result = result.replace('<sonar-key>', `cisco-sbg_${appName}_${sonarKey}`);
         }
 
         fs.writeFile(`${appPath}/sonar-project.properties`, result, 'utf8', function (err) {
