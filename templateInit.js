@@ -85,13 +85,19 @@ module.exports = function (
     appName,
     verbose,
     originalDirectory,
-    templateName
+    templateName,
+    sonarKey,
+    coronaReleaseId
 ) {
+    console.log("-------------------------------------------")
     console.log(appPath,
         appName,
         verbose,
         originalDirectory,
-        templateName)
+        templateName,
+        sonarKey,
+        coronaReleaseId)
+    console.log("-------------------------------------------")
     const repoName = appName.replace("@cisco-sbg/", "");
     console.log(appName, repoName);
     const appPackage = require(path.join(appPath, 'package.json'));
@@ -406,7 +412,7 @@ module.exports = function (
         );
     }
     console.log();
-    console.log('Happy hacking!');
+    console.log('Happy programming!');
 };
 
 function isReactInstalled(appPackage) {
