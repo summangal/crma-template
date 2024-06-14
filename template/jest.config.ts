@@ -11,7 +11,7 @@ const config: Config = {
     '^.+\\.(ts|tsx)?$': 'ts-jest',
     '^.+\\.(js|jsx)?$': 'babel-jest',
     'node_modules/(react-dnd|dnd-core|@react-dnd|react-dnd-html5-backend)/.+\\.(js|ts|jsx|tsx)?$':
-      'ts-jest',
+        'ts-jest',
   },
   transformIgnorePatterns: [
     'node_modules/(?!(react-dnd|dnd-core|@react-dnd|react-dnd-html5-backend|react-dnd-touch-backend)/)',
@@ -30,7 +30,12 @@ const config: Config = {
   collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/src/**',
+    '!<rootDir>/src/index.ts',
     '!<rootDir>/src/**/*.test.{ts,tsx}',
+    '!<rootDir>/src/mocks/*',
+    '!<rootDir>/src/locales/**/*',
+    '!<rootDir>/src/interfaces/*',
+    '!<rootDir>/src/Bootstrap.tsx',
   ],
   coverageDirectory: '<rootDir>/coverage',
   coverageReporters: ['text', 'text-summary', 'html', 'lcov', 'cobertura'],
