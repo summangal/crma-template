@@ -9,7 +9,7 @@ import Spinner from '../Spinner/Spinner';
 import AppLayout from '../appLayout/AppLayout';
 import '../../../locales/i18n';
 import '../../../index.scss';
-import { ApiConfigProvider } from '../../../contexts/urlConfigurationContext';
+import { ApiConfigProvider } from '../../../contexts/apiConfigurationContext';
 
 interface IExposedComponentWrapperProps {
   children: React.ReactNode;

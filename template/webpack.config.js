@@ -49,6 +49,7 @@ const commonConfig = (env, mode) => {
         {
           test: /\.(css|s[ac]ss)$/i,
           use: [
+            'style-loader',
             isEnvProduction && {
               loader: MiniCssExtractPlugin.loader,
               options: { publicPath: 'auto' },
@@ -188,7 +189,7 @@ const devConfig = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, './dist'),
-    publicPath: 'http://localhost:4002/',
+    publicPath: 'http://localhost:<port>/',
   },
   devtool: false,
   plugins: [

@@ -87,19 +87,9 @@ module.exports = function (
     originalDirectory,
     templateName,
     sonarKey,
-    coronaReleaseId
+    coronaReleaseId,
+    port
 ) {
-    console.log("-------------------------------------------")
-    console.log(appPath,
-        appName,
-        verbose,
-        originalDirectory,
-        templateName,
-        sonarKey,
-        coronaReleaseId)
-    console.log("-------------------------------------------")
-    const repoName = appName.replace("@cisco-sbg/", "");
-    console.log(appName, repoName);
     const appPackage = require(path.join(appPath, 'package.json'));
     const useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
 
@@ -289,6 +279,8 @@ module.exports = function (
             return console.log(err);
         }
         let result = data.replace('<app_name_camel_case>', camelize(appName));
+        port = port || 4002
+        result= result.replace('<port>', port);
         fs.writeFile(`${appPath}/webpack.config.js`, result, 'utf8', function (err) {
             if (err) return console.log(err);
         });

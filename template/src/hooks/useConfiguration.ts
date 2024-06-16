@@ -20,10 +20,8 @@ function useConfigJsonData(): IConfigResponse {
         setLoading(false);
       }
     }
-
     fetchConfig();
   }, []);
-
   return { loading, error, config };
 }
 

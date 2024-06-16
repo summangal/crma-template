@@ -4,6 +4,7 @@ import { OktaAuth, OktaAuthOptions, toRelativeUrl } from '@okta/okta-auth-js';
 import { useNavigate } from 'react-router-dom';
 import { IOktaConfig } from '@interfaces/IConfiguration';
 import AppRoutes from '../../../../AppRoutes';
+import { FeatureFlagProvider } from '../../../../contexts/featureFlagContext';
 
 export interface IOktaConfiguration {
   config: IOktaConfig;
@@ -30,7 +31,9 @@ const OktaConfiguration: React.FC<IOktaConfiguration> = ({ config }) => {
     <Security
       oktaAuth={oktaAuth}
       restoreOriginalUri={restoreOriginalUri}>
-      <AppRoutes />
+      <FeatureFlagProvider>
+        <AppRoutes />
+      </FeatureFlagProvider>
     </Security>
   );
 };

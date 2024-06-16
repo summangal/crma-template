@@ -7,7 +7,7 @@ const defaultValue: IApiConfig = {
   enterpriseId: '',
 };
 export const APIConfigContext = createContext<IApiConfig>(defaultValue);
-export const useUrlConfig = (): IApiConfig => {
+export const useAPIConfigContext = (): IApiConfig => {
   const { config, enterpriseId } = useContext(APIConfigContext);
   return {
     config,
