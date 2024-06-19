@@ -27,7 +27,7 @@ const DashBoard: React.FC = () => {
         grow
         gap="md"
         direction="vertical">
-        <CDSHeading size="h1">{t('DashBoard')}</CDSHeading>
+        <CDSHeading size="h1">{t('Dashboard')}</CDSHeading>
         <CDSFlex
           direction="horizontal"
           gap="md"
